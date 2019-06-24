@@ -18,7 +18,7 @@
 
     - name: Add ictsc motd
       copy:
-        src: ./etc/motd
+        src: ./motd
         dest: /etc/motd
         owner: root
         group: root
