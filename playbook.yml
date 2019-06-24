@@ -1,0 +1,26 @@
+---
+- hosts: test
+  tasks:
+    - name: Add ictsc user
+      user:
+        name: ictsc
+        password: "{{ICTSC_PASSWORD}}"
+
+    - name: Add write protect to ~/.bash_history
+    - file:
+        path: /home/ictsc/.bash_history
+        attributes: +i
+
+    - name: Add admin user
+      user:
+        name: admin
+        password: "{{ICTSC_PASSWORD}}"
+
+    - name: Add ictsc motd
+      shell: true
+      # TODO
+
+    - name: disable fail2ban
+      systemd:
+          name: fail2ban
+          enabled: no
