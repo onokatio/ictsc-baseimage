@@ -7,7 +7,7 @@
         password: "{{ICTSC_PASSWORD}}"
 
     - name: Add write protect to ~/.bash_history
-    - file:
+      file:
         path: /home/ictsc/.bash_history
         attributes: +i
 
