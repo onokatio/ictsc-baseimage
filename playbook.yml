@@ -8,8 +8,9 @@
 
     - name: Add write protect to ~/.bash_history
       file:
-        path: /home/ictsc/.bash_history
-        attributes: +i
+        src: /home/ictsc/.bash_history
+        dest: /dev/null
+        state: link
 
     - name: Add admin user
       user:
