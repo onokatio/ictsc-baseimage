@@ -17,8 +17,11 @@
         password: "{{ICTSC_PASSWORD}}"
 
     - name: Add ictsc motd
-      shell: true
-      # TODO
+      copy:
+        src: ./etc/motd
+        dest: /etc/motd
+        owner: root
+        group: root
 
     - name: disable fail2ban
       systemd:
