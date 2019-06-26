@@ -15,7 +15,7 @@
     - name: Add admin user
       user:
         name: admin
-        password: "{{ICTSC_PASSWORD}}"
+        password: "{{ADMIN_PASSWORD}}"
 
     - name: Add ictsc motd
       copy:
