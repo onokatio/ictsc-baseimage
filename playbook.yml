@@ -1,10 +1,10 @@
 ---
-- hosts: test
+- hosts: 127.0.0.1
   tasks:
     - name: Add ictsc user
       user:
         name: ictsc
-        password: "{{ICTSC_PASSWORD}}"
+        password: lookup("ICTSC_PASSWORD")
         groups: wheel
 
     - name: Add write protect to ~/.bash_history
@@ -36,3 +36,11 @@
       systemd:
           name: fail2ban
           enabled: no
+
+    - name: Set ictsc memeber's public key as authorized key
+      authorized_key:
+        user: ictsc
+
+    - debug:
+        msg: "{{ item }}"
+      with_file: keys
