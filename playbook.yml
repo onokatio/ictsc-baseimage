@@ -12,6 +12,12 @@
         dest: /dev/null
         state: link
 
+    - name: Add write protect to ~/.bash_history
+      file:
+        src: /root/.bash_history
+        dest: /dev/null
+        state: link
+
     - name: Add admin user
       user:
         name: admin
