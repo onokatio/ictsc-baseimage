@@ -53,7 +53,7 @@
         key: "{{ item }}"
       with_file: keys
 
-    - name: deny login root
+    - name: disable root login
       user:
         name: root
         password: "!"
