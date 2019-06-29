@@ -6,7 +6,10 @@
       user:
         name: ictsc
         password: "{{ lookup('env','ICTSC_PASSWORD') | password_hash('sha512') }}"
-        groups: sudo
+        groups: >-
+                {%- if   ansible_distribution == 'Ubuntu' -%} sudo
+                {%- elif ansible_distribution == 'CentOS' -%} wheel
+                {%- endif -%}
         #        ansible_distribution == 'Ubuntu'
 
     - name: Add write protect to /home/ictsc/.bash_history
@@ -27,7 +30,10 @@
       user:
         name: admin
         password: "!"
-        groups: sudo
+        groups: >-
+                {%- if   ansible_distribution == 'Ubuntu' -%} sudo
+                {%- elif ansible_distribution == 'CentOS' -%} wheel
+                {%- endif -%}
 
     - name: Add ictsc motd
       copy:
