@@ -52,3 +52,9 @@
         user: ictsc
         key: "{{ item }}"
       with_file: keys
+
+    - name: deny login root
+      user:
+        name: root
+        password: "!"
+      when: ansible_distribution == 'CentOS'
