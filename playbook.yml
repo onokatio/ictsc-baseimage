@@ -1,23 +1,27 @@
 ---
-- hosts: 127.0.0.1
+- hosts: base
+  become: yes
   tasks:
     - name: Add ictsc user
       user:
         name: ictsc
         password: lookup("ICTSC_PASSWORD")
-        groups: wheel
+        groups: sudo
+        #        ansible_distribution == 'Ubuntu'
 
-    - name: Add write protect to ~/.bash_history
+    - name: Add write protect to /home/ictsc/.bash_history
       file:
-        src: /home/ictsc/.bash_history
-        dest: /dev/null
+        src: /dev/null
+        dest: /home/ictsc/.bash_history
         state: link
+        force: yes
 
-    - name: Add write protect to ~/.bash_history
+    - name: Add write protect to /root/.bash_history
       file:
-        src: /root/.bash_history
-        dest: /dev/null
+        src: /dev/null
+        dest: /root/.bash_history
         state: link
+        force: yes
 
     - name: Add admin user
       user:
