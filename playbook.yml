@@ -5,7 +5,7 @@
     - name: Add ictsc user
       user:
         name: ictsc
-        password: lookup("ICTSC_PASSWORD")
+        password: "{{ lookup('env','ICTSC_PASSWORD') | password_hash('sha512') }}"
         groups: sudo
         #        ansible_distribution == 'Ubuntu'
 
@@ -27,7 +27,7 @@
       user:
         name: admin
         password: "!"
-        groups: wheel
+        groups: sudo
 
     - name: Add ictsc motd
       copy:
@@ -44,7 +44,5 @@
     - name: Set ictsc memeber's public key as authorized key
       authorized_key:
         user: ictsc
-
-    - debug:
-        msg: "{{ item }}"
+        key: "{{ item }}"
       with_file: keys
