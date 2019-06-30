@@ -1,0 +1,62 @@
+---
+- hosts: base
+  connection: network_cli
+  vars:
+    - ansible_network_os: vyos
+  tasks:
+    - name: Add ictsc user
+      vyos_user:
+        name: ictsc
+        configured_password: "{{ lookup('env','ICTSC_PASSWORD') }}"
+        groups: >-
+                {%- if   ansible_distribution == 'Ubuntu' -%} sudo
+                {%- elif ansible_distribution == 'CentOS' -%} wheel
+                {%- endif -%}
+        #        ansible_distribution == 'Ubuntu'
+
+    - name: Add write protect to /home/ictsc/.bash_history
+      file:
+        src: /dev/null
+        dest: /home/ictsc/.bash_history
+        state: link
+        force: yes
+
+    - name: Add write protect to /root/.bash_history
+      file:
+        src: /dev/null
+        dest: /root/.bash_history
+        state: link
+        force: yes
+
+    - name: Add admin user
+      user:
+        name: admin
+        password: "!"
+        groups: >-
+                {%- if   ansible_distribution == 'Ubuntu' -%} sudo
+                {%- elif ansible_distribution == 'CentOS' -%} wheel
+                {%- endif -%}
+
+    - name: Add ictsc motd
+      copy:
+        src: ./motd
+        dest: /etc/motd
+        owner: root
+        group: root
+
+    - name: disable fail2ban
+      systemd:
+          name: fail2ban
+          enabled: no
+
+    - name: Set ictsc memeber's public key as authorized key
+      authorized_key:
+        user: ictsc
+        key: "{{ item }}"
+      with_file: keys
+
+    - name: disable root login
+      user:
+        name: root
+        password: "!"
+      when: ansible_distribution == 'CentOS'
