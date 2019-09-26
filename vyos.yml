@@ -1,0 +1,22 @@
+---
+- hosts: base
+  connection: network_cli
+  
+  vars:
+    - ansible_network_os: vyos
+
+  tasks:
+    - name: Add ictsc user
+      vyos_user:
+        name: ictsc
+        configured_password: "{{ lookup('env','ICTSC_PASSWORD') }}"
+
+    - name: Add admin user
+      vyos_user:
+        name: admin
+        configured_password: "{{ lookup('env','ICTSC_PASSWORD') }}"
+
+    - name: change vyos login
+      vyos_user:
+        name: vyos
+        configured_password: "{{ lookup('env','ICTSC_PASSWORD') }}"
