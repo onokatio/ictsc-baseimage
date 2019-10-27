@@ -1,3 +1,5 @@
+**deprecated** This repository moved to https://github.com/ictsc/ictsc-playbooks (provate repository)
+
 # ictsc baseimage ansible play book
 
 ```
